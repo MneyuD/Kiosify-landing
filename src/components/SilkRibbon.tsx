@@ -46,12 +46,15 @@ void main(){
   float s = sin(twist);
   float across = aV * width;
 
+  // centre + tangent of the path, in pixel-proportional space (x scaled by aspect)
+  vec2 C = vec2(aC.x * uAspect, aC.y);
+  vec2 T = normalize(vec2(aT.x * uAspect, aT.y));
+
   // offset perpendicular to the path, measured in pixel space so the band keeps its width
-  vec2 tp = normalize(vec2(aT.x * uAspect, aT.y));
-  vec2 np = vec2(-tp.y, tp.x);
-  vec2 off = np * across * c + tp * across * s * 0.3;
-  off.x /= uAspect;
-  vec2 p = aC + off;
+  vec2 np = vec2(-T.y, T.x);
+  vec2 off = np * across * c + T * across * s * 0.3;
+  vec2 p = C + off;
+  p.x /= uAspect;
   p.y += sin(uTime * 2.0 + aSeed * 40.0) * 0.002;
   gl_Position = vec4(p, 0.0, 1.0);
 
@@ -85,7 +88,8 @@ void main(){
   gl_FragColor = vec4(vColor, a * vAlpha);
 }`;
 
-export default function SilkRibbon({ startAfterId }: { startAfterId: string }) {
+/** With `startAfterId` the ribbon fades in once that element has scrolled away; without it, it is always visible. */
+export default function SilkRibbon({ startAfterId }: { startAfterId?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -139,7 +143,12 @@ export default function SilkRibbon({ startAfterId }: { startAfterId: string }) {
       g.setAttribute('aSeed', new THREE.BufferAttribute(aSeed, 1));
       return g;
     };
-    const shared = { uTime: { value: 0 }, uFlow: { value: 0 }, uAspect: { value: 1 }, uPR: { value: renderer.getPixelRatio() } };
+    const shared = {
+      uTime: { value: 0 },
+      uFlow: { value: 0 },
+      uAspect: { value: 1 },
+      uPR: { value: renderer.getPixelRatio() },
+    };
     const makeMat = (size: number, glow: number) =>
       new THREE.ShaderMaterial({
         vertexShader: vert,
@@ -171,9 +180,9 @@ export default function SilkRibbon({ startAfterId }: { startAfterId: string }) {
     let visible = false;
     const loop = () => {
       raf = requestAnimationFrame(loop);
-      const start = document.getElementById(startAfterId);
+      const start = startAfterId ? document.getElementById(startAfterId) : null;
       const startBottom = start ? start.getBoundingClientRect().bottom : 0;
-      const show = startBottom < window.innerHeight * 0.5; // after the 3D journey
+      const show = !startAfterId || startBottom < window.innerHeight * 0.5; // after the 3D journey
       if (show !== visible) {
         visible = show;
         canvas.style.opacity = show ? '1' : '0';

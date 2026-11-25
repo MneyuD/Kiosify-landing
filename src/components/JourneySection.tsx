@@ -82,7 +82,7 @@ export default function JourneySection() {
             Orders that flow <span className="grad">from kiosk to kitchen.</span>
           </h1>
           <div className="hero-cta">
-            <a className="btn btn-primary" href="#signup">Start free trial</a>
+            <a className="btn btn-primary" href="/signup">Start free trial</a>
             <a className="btn btn-ghost" href="#dashboard">See the dashboard</a>
           </div>
         </div>

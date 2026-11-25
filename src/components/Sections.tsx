@@ -34,8 +34,8 @@ export function Nav() {
         <a href="#pricing">Pricing</a>
       </nav>
       <div className="nav-cta">
-        <a className="nav-signin" href={APP_URL ? `${APP_URL}/auth` : '#signup'}>Sign in</a>
-        <a className="btn btn-primary btn-sm" href="#signup">Get started</a>
+        <a className="nav-signin" href="/signin">Sign in</a>
+        <a className="btn btn-primary btn-sm" href="/signup">Get started</a>
       </div>
       <button className="nav-burger" aria-label="Menu" aria-expanded={open} onClick={() => setOpen((o) => !o)}><i /><i /></button>
     </header>
@@ -169,7 +169,7 @@ export function Pricing({ onPick }: { onPick: (p: PlanId) => void }) {
                 {'popular' in p && <span className="badge">Most popular</span>}
               </header>
               <div className="price"><b>${p.price}</b><span>/monthly</span></div>
-              <a href="#signup" className={`btn ${'popular' in p ? 'btn-primary' : 'btn-outline'} btn-block`} onClick={() => onPick(p.id)}>{p.cta}</a>
+              <a href="/signup" className={`btn ${'popular' in p ? 'btn-primary' : 'btn-outline'} btn-block`} onClick={() => onPick(p.id)}>{p.cta}</a>
               <ul>
                 {p.feats.map((f) => <li key={f}>{f}</li>)}
               </ul>
