@@ -314,7 +314,7 @@ export class Journey {
     );
     this.tokenGlow.scale.set(1.7, 1.7, 1);
     (this.tokenGlow.material as THREE.SpriteMaterial).opacity = 0.75;
-    const core = new THREE.Mesh(new THREE.IcosahedronGeometry(0.22, 1), new THREE.MeshBasicMaterial({ color: '#ffffff', fog: false }));
+    const core = new THREE.Mesh(new THREE.SphereGeometry(0.22, 40, 28), new THREE.MeshBasicMaterial({ color: '#ffffff', fog: false }));
     this.token.add(this.tokenGlow, core);
     this.token.visible = false;
     this.scene.add(this.token);
