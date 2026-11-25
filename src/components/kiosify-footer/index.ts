@@ -1,0 +1,6 @@
+export { KiosifyFooter, default } from './KiosifyFooter'
+export type { KiosifyFooterProps } from './KiosifyFooter'
+export { FooterWordmark } from './FooterWordmark'
+export { PolicyLinks, DEFAULT_POLICY_LINKS } from './PolicyLinks'
+export type { PolicyLinkItem } from './PolicyLinks'
+export { PolicyPage } from './PolicyPages'
